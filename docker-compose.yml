@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  develop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/logs
+      - ./output:/output
+      - ./src:/src
+    command: /bin/bash
+
+  master:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/logs
+      - ./output:/output
+      - ./src:/src
+    command: python3 /src/main.py

@@ -1,0 +1,4 @@
+asyncio==3.4.3
+streamlink==5.5.1
+shazamio==0.4.0.1
+twitchio==2.6.0
