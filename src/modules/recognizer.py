@@ -7,14 +7,14 @@ from modules.logger import logger
 
 CONVERT_COMMAND = 'ffmpeg -ss 3 -i /output/clip_1.mp4 ' \
     '-loglevel error -vn -acodec libvorbis -y /output/audio.ogg'
-# This time includes 13 seconds ad at start of recording
-RECORD_TIME_LENGTH = 22
 
 
 class Recognizer:
     def __init__(self):
         self.shazam = Shazam()
         self.twitch_channel = config.twitch_channel
+        # Add ad time to record length
+        self.record_length = config.record_length + 13
 
     def convert_mp4_to_ogg(self):
         subprocess.call(CONVERT_COMMAND, shell=True)
@@ -60,7 +60,7 @@ class Recognizer:
                       '-segment_time', '12', '-loglevel', 'error',
                       '-bsf:a', 'aac_adtstoasc', '/output/clip_%d.mp4']
         process = await asyncio.create_subprocess_exec(*ffmpeg_cmd)
-        await asyncio.sleep(RECORD_TIME_LENGTH)
+        await asyncio.sleep(self.record_length)
         process.terminate()
         await process.communicate()
         return True

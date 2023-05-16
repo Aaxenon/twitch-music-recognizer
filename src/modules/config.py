@@ -2,6 +2,7 @@ import os
 from modules.logger import logger
 
 DEFAULT_COOLDOWN = 90
+DEFAULT_RECORD_LENGTH = 7
 MIN_COOLDOWN = 45
 
 
@@ -22,6 +23,7 @@ class Config:
         self.should_retry = False if os.getenv(
             'TWITCH_SHOULD_RETRY') == '0' else True
         self.set_cooldown()
+        self.set_record_length()
 
     def set_cooldown(self):
         cooldown = DEFAULT_COOLDOWN
@@ -39,6 +41,23 @@ class Config:
                     logger.error('Invalid cooldown time, using default value')
 
         setattr(type(self), 'command_cooldown', cooldown)
+
+    def set_record_length(self):
+        record_length = DEFAULT_RECORD_LENGTH
+        env_record_length = os.getenv('TWITCH_RECORD_LENGTH')
+
+        if env_record_length:
+            try:
+                env_record_length = int(env_record_length)
+            except ValueError:
+                logger.error('Invalid record length number, using default value')
+            else:
+                if env_record_length >= 0:
+                    record_length = env_record_length
+                else:
+                    logger.error('Invalid record length time, using default value')
+
+        setattr(type(self), 'record_length', record_length)
 
 
 config = Config()

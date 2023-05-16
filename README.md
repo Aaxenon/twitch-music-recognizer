@@ -5,7 +5,9 @@ This is a Twich Bot that is based on [TwitchIO](https://github.com/TwitchIO/Twit
 
 ## How it works
 
-When a viewer uses a command in the Twitch chat, the bot will start recording the stream’s audio for 22 seconds. It will then remove the first 13 seconds, which contains an embedded Twitch ad. The remaining audio will be sent to ShazamIO to recognize the song. If ShazamIO can detect the song, the bot will output the song name in the chat.
+When a viewer uses a command in the Twitch chat, the bot will start recording the stream’s audio for set amount of seconds, recommended value is 20. It will then remove the first 13 seconds, which contains an embedded Twitch ad. The remaining audio will be sent to ShazamIO to recognize the song. If ShazamIO can detect the song, the bot will output the song name in the chat.
+
+In order for this service to function correctly, the streamer must have VODs enabled.
 
 ## Deployment
 
@@ -49,6 +51,10 @@ TWITCH_COMMAND_COOLDOWN=
 TWITCH_COMMAND_NAME=
 # Prefix for command. Default value: !
 TWITCH_CHAT_PREFIX=
+# How long the sound sample of the livestream should be, value in seconds.
+# This value will be added to the duration of default Twitch ad.
+# Change it if recognition rate is not good enough. Default value: 7
+TWITCH_RECORD_LENGTH=
 # If the bot should automatically retry after the first failure. 
 # Takes 1 or 0 as values for true or false values accordingly. Default value: 1
 TWITCH_SHOULD_RETRY=
